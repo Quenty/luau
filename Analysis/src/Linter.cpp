@@ -826,6 +826,13 @@ private:
         if (!call)
             return false;
 
+#ifdef NEVERMORE_STRING_REQUIRE
+        const AstExprLocal* local = call->func->as<AstExprLocal>();
+        if (local && local->local->name == "require")
+        {
+            return true;
+        }
+#endif
         AstExprGlobal* glob = call->func->as<AstExprGlobal>();
         if (!glob)
             return false;
