@@ -1687,6 +1687,15 @@ static std::optional<AutocompleteEntryMap> autocompleteStringParams(
             {
                 return convertRequireSuggestionsToAutocompleteEntryMap(fileResolver->getRequireSuggestions(module->name, candidateString));
             }
+
+#ifdef NEVERMORE_STRING_REQUIRE
+            if (tag == "StringRequire" && fileResolver)
+            {
+                // TODO: String require auto complete?
+                // return convertRequireSuggestionsToAutocompleteEntryMap(fileResolver->getRequireSuggestions(module->name, candidateString));
+            }
+#endif
+
             if (std::optional<AutocompleteEntryMap> ret = callback(tag, getMethodContainingExternType(module, candidate->func), candidateString))
             {
                 return ret;
