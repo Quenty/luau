@@ -67,6 +67,15 @@ static std::optional<AstExpr*> matchRequire(const AstExprCall& call)
     if (call.args.size != 1)
         return std::nullopt;
 
+#ifdef NEVERMORE_STRING_REQUIRE
+    const AstExprLocal* local = call.func->as<AstExprLocal>();
+    if (local && local->local->name == require)
+    {
+        // TODO: Check class index of function as loader...
+        return call.args.data[0];
+    }
+#endif
+
     const AstExprGlobal* funcAsGlobal = call.func->as<AstExprGlobal>();
     if (!funcAsGlobal || funcAsGlobal->name != require)
         return std::nullopt;
